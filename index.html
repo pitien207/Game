@@ -1,28 +1,24 @@
 <!doctype html>
-<html lang="vi">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🐾 Tiere Erraten</title>
+    <title>Tiere Erraten</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- Startup Screen -->
     <div class="startup-screen" id="startupScreen">
       <div class="startup-container">
-        <div class="emoji-animation">🐾</div>
+        <div class="emoji-animation">&#128062;</div>
         <h1>Tiere Erraten</h1>
         <p>
-          Errate, welches Tier es ist, basierend auf dem Rätsel, bevor du die
-          Karte umdrehst!
+          Errate das Tier anhand des Raetsels, bevor du die Karte umdrehst.
         </p>
-        <button class="start-btn" id="startBtn">Spiel Starten</button>
+        <button class="start-btn" id="startBtn">Spiel starten</button>
       </div>
     </div>
 
-    <!-- Game Screen -->
     <div class="game-screen" id="gameScreen">
-      <!-- Header -->
       <div class="game-header">
         <h2 id="progressText">
           Karte <span id="currentCard">1</span> /
@@ -31,22 +27,25 @@
         <button class="home-btn" id="homeBtn">Startseite</button>
       </div>
 
-      <!-- Card Container -->
       <div class="card-container">
         <div class="card" id="card">
           <div class="card-inner">
-            <!-- Front (Question) -->
             <div class="card-front">
               <div class="card-content">
-                <span class="hint-icon">❓</span>
+                <span class="hint-icon">?</span>
                 <p id="questionText">Wer bin ich?</p>
                 <span class="tap-hint">Tippen zum Umdrehen</span>
               </div>
             </div>
-            <!-- Back (Animal) -->
+
             <div class="card-back">
               <div class="card-content">
-                <div class="animal-image" id="animalEmoji"></div>
+                <img
+                  class="animal-image"
+                  id="animalImage"
+                  src="images/dog.svg"
+                  alt="Hund"
+                />
                 <p id="answerText">Hund</p>
                 <span class="tap-hint">Tippen zur Antwort</span>
               </div>
@@ -55,24 +54,21 @@
         </div>
       </div>
 
-      <!-- Navigation Arrows -->
       <div class="navigation">
-        <button class="nav-btn prev-btn" id="prevBtn">← Zurück</button>
-        <button class="nav-btn next-btn" id="nextBtn">Weiter →</button>
+        <button class="nav-btn prev-btn" id="prevBtn">&larr; Zurueck</button>
+        <button class="nav-btn next-btn" id="nextBtn">Weiter &rarr;</button>
       </div>
 
-      <!-- Swipe Indicator -->
       <div class="swipe-hint" id="swipeHint">
-        Wisch links/rechts, um zur nächsten Karte zu gehen
+        Wisch links oder rechts, um zur naechsten Karte zu gehen
       </div>
 
-      <!-- Complete Screen -->
       <div class="complete-overlay" id="completeOverlay">
         <div class="complete-modal">
-          <div class="emoji-animation-large">🎉</div>
-          <h2>Glückwunsch!</h2>
-          <p>Du hast das Spiel abgeschlossen</p>
-          <button class="restart-btn" id="restartBtn">Erneut Spielen</button>
+          <div class="emoji-animation-large">&#127881;</div>
+          <h2>Glueckwunsch!</h2>
+          <p>Du hast das Spiel abgeschlossen.</p>
+          <button class="restart-btn" id="restartBtn">Erneut spielen</button>
         </div>
       </div>
     </div>

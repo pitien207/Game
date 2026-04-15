@@ -1,62 +1,72 @@
-// Animal data with questions and image paths (German)
-// Dễ dàng thêm/bớt động vật tại đây
-
-const animalsOriginal = [
+const animalsOriginal = Object.freeze([
   {
+    id: "dog",
     name: "Hund",
-    image: "images/dog.jpg",
+    image: "images/dog.svg",
     question:
-      "Ich bin der beste Freund des Menschen, ich belle gerne und liebe es, Stöcke zu apportieren.",
+      "Ich bin der beste Freund des Menschen, belle gern und apportiere Stoecke.",
   },
   {
+    id: "cat",
     name: "Katze",
-    image: "images/cat.jpg",
+    image: "images/cat.svg",
     question:
-      "Ich habe 9 Leben, liebe es, in der Sonne zu liegen und meinen Schwanz einzurollen.",
+      "Ich schlafe gern in der Sonne, schnurre zufrieden und jage kleine Dinge.",
   },
   {
+    id: "elephant",
     name: "Elefant",
-    image: "images/elephant.jpg",
-    question: "Ich bin das größte Landtier mit einem langen Rüssel.",
-  },
-  {
-    name: "Bär",
-    image: "images/bear.jpg",
+    image: "images/elephant.svg",
     question:
-      "Ich liebe Honig und freue mich jeden Abend auf die untergehende Sonne.",
+      "Ich bin sehr gross, habe einen langen Ruessel und vergesse fast nie etwas.",
   },
   {
-    name: "Löwe",
-    image: "images/lion.jpg",
+    id: "bear",
+    name: "Baer",
+    image: "images/bear.svg",
     question:
-      "Ich bin der König des Dschungels mit gelbem Fell und einem lauten Brüllen.",
+      "Ich bin stark, mag Honig und halte im Winter manchmal einen langen Schlaf.",
   },
   {
+    id: "lion",
+    name: "Loewe",
+    image: "images/lion.svg",
+    question:
+      "Ich werde oft Koenig der Tiere genannt und bruellen kann man weit hoeren.",
+  },
+  {
+    id: "tiger",
     name: "Tiger",
-    image: "images/tiger.jpg",
+    image: "images/tiger.svg",
     question:
-      "Ich bin die größte wilde Katze mit charakteristisch orangen und schwarzen Streifen.",
+      "Ich bin eine grosse Wildkatze mit orangefarbenem Fell und dunklen Streifen.",
   },
   {
+    id: "monkey",
     name: "Affe",
-    image: "images/monkey.jpg",
+    image: "images/monkey.svg",
     question:
-      "Ich bin intelligent, liebe zu tanzen und esse den ganzen Tag Bananen.",
+      "Ich klettere gern, bin sehr neugierig und esse am liebsten Bananen.",
   },
   {
+    id: "mouse",
     name: "Maus",
-    image: "images/mouse.jpg",
-    question: "Ich bin klein, liebe Käse und habe Angst vor Katzen.",
-  },
-  {
-    name: "Kaninchen",
-    image: "images/rabbit.jpg",
-    question: "Ich habe lange Ohren, liebe zu hüpfen und esse gerne Karotten.",
-  },
-  {
-    name: "Fuchs",
-    image: "images/fox.jpg",
+    image: "images/mouse.svg",
     question:
-      "Ich habe wunderschönes rotes Fell, einen langen Schwanz und bin sehr intelligent.",
+      "Ich bin klein, flink und verstecke mich schnell, wenn eine Katze kommt.",
   },
-];
+  {
+    id: "rabbit",
+    name: "Kaninchen",
+    image: "images/rabbit.svg",
+    question:
+      "Ich habe lange Ohren, huepfe schnell und knabbere gern an Karotten.",
+  },
+  {
+    id: "fox",
+    name: "Fuchs",
+    image: "images/fox.svg",
+    question:
+      "Ich habe rotbraunes Fell, einen buschigen Schwanz und gelte als schlau.",
+  },
+]);

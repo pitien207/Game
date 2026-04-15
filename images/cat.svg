@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">Katze</title>
+  <desc id="desc">Illustration einer Karte mit einer Katze.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#c2e9fb" />
+      <stop offset="100%" stop-color="#a1c4fd" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="640" rx="48" fill="url(#bg)" />
+  <circle cx="400" cy="270" r="170" fill="#f6fbff" opacity="0.95" />
+  <text x="400" y="330" text-anchor="middle" font-size="220" font-family="'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif">🐱</text>
+  <text x="400" y="540" text-anchor="middle" font-size="64" font-weight="700" fill="#1c3d5a" font-family="Arial, sans-serif">Katze</text>
+</svg>

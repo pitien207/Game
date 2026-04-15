@@ -1,12 +1,15 @@
-// Game Variables
 let animals = [];
 let currentCardIndex = 0;
 let isFlipped = false;
 let gameStarted = false;
+let isAnimating = false;
 let touchStartX = 0;
 let touchEndX = 0;
+let swipeHintTimeoutId = null;
 
-// DOM Elements
+const CARD_ANIMATION_MS = 500;
+const SWIPE_THRESHOLD = 50;
+
 const startupScreen = document.getElementById("startupScreen");
 const gameScreen = document.getElementById("gameScreen");
 const startBtn = document.getElementById("startBtn");
@@ -14,7 +17,7 @@ const homeBtn = document.getElementById("homeBtn");
 const card = document.getElementById("card");
 const questionText = document.getElementById("questionText");
 const answerText = document.getElementById("answerText");
-const animalEmoji = document.getElementById("animalEmoji");
+const animalImage = document.getElementById("animalImage");
 const currentCardSpan = document.getElementById("currentCard");
 const totalCardsSpan = document.getElementById("totalCards");
 const prevBtn = document.getElementById("prevBtn");
@@ -23,13 +26,15 @@ const completeOverlay = document.getElementById("completeOverlay");
 const restartBtn = document.getElementById("restartBtn");
 const swipeHint = document.getElementById("swipeHint");
 
-// Initialize
-document.addEventListener("DOMContentLoaded", () => {
-  totalCardsSpan.textContent = animalsOriginal.length;
-  setupEventListeners();
-});
+document.addEventListener("DOMContentLoaded", init);
 
-// Setup Event Listeners
+function init() {
+  totalCardsSpan.textContent = animalsOriginal.length;
+  swipeHint.style.transition = "opacity 0.3s ease";
+  setupEventListeners();
+  preloadAnimalImages();
+}
+
 function setupEventListeners() {
   startBtn.addEventListener("click", startGame);
   homeBtn.addEventListener("click", goHome);
@@ -38,54 +43,70 @@ function setupEventListeners() {
   nextBtn.addEventListener("click", nextCard);
   restartBtn.addEventListener("click", startGame);
 
-  // Touch events for swipe
   document.addEventListener("touchstart", handleTouchStart, false);
   document.addEventListener("touchend", handleTouchEnd, false);
-
-  // Keyboard events
   document.addEventListener("keydown", handleKeyPress);
+
+  document.addEventListener(
+    "touchstart",
+    () => {
+      hideSwipeHint();
+    },
+    { once: true },
+  );
+
+  document.addEventListener(
+    "click",
+    () => {
+      hideSwipeHint();
+    },
+    { once: true },
+  );
 }
 
-// Shuffle function
+function preloadAnimalImages() {
+  animalsOriginal.forEach((animal) => {
+    const image = new Image();
+    image.src = animal.image;
+  });
+}
+
 function shuffleArray(array) {
   const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ];
   }
+
   return shuffled;
 }
 
-// Start Game
 function startGame() {
   gameStarted = true;
+  isAnimating = false;
   currentCardIndex = 0;
   isFlipped = false;
-
-  // Shuffle animals on game start
   animals = shuffleArray(animalsOriginal);
 
+  clearTimeout(swipeHintTimeoutId);
   startupScreen.classList.add("hide");
   gameScreen.classList.add("show");
   completeOverlay.classList.remove("show");
 
-  loadCard();
-  updateButtonStates();
-  hideSwipeHint();
-
-  // Show swipe hint after 1 second
-  setTimeout(() => {
-    if (gameStarted) {
-      showSwipeHint();
-    }
-  }, 1000);
+  renderCurrentCard();
+  scheduleSwipeHint();
 }
 
-// Go Home
 function goHome() {
   gameStarted = false;
+  isAnimating = false;
   isFlipped = false;
 
+  clearTimeout(swipeHintTimeoutId);
   startupScreen.classList.remove("hide");
   gameScreen.classList.remove("show");
   completeOverlay.classList.remove("show");
@@ -93,126 +114,151 @@ function goHome() {
   resetCard();
 }
 
-// Load Card
-function loadCard() {
+function renderCurrentCard() {
   const animal = animals[currentCardIndex];
+
+  if (!animal) {
+    return;
+  }
+
   questionText.textContent = animal.question;
   answerText.textContent = animal.name;
-  animalEmoji.style.backgroundImage = `url('${animal.image}')`;
-  animalEmoji.style.backgroundSize = "cover";
-  animalEmoji.style.backgroundPosition = "center";
-  animalEmoji.textContent = "";
+  animalImage.src = animal.image;
+  animalImage.alt = `Bild von ${animal.name}`;
 
-  currentCardSpan.textContent = currentCardIndex + 1;
-
-  isFlipped = false;
+  currentCardSpan.textContent = String(currentCardIndex + 1);
   card.classList.remove("flipped");
+  isFlipped = false;
 
   updateButtonStates();
 }
 
-// Flip Card
 function flipCard() {
+  if (!gameStarted || isAnimating) {
+    return;
+  }
+
   card.classList.toggle("flipped");
   isFlipped = !isFlipped;
+  hideSwipeHint();
 }
 
-// Next Card
 function nextCard() {
-  if (currentCardIndex < animals.length - 1) {
-    // Slide out animation
-    card.classList.add("slide-left");
-    setTimeout(() => {
-      currentCardIndex++;
-      card.classList.remove("slide-left");
-      card.classList.add("slide-in-left");
-      loadCard();
-      setTimeout(() => {
-        card.classList.remove("slide-in-left");
-      }, 500);
-    }, 500);
-  } else {
-    completeGame();
-  }
+  navigateCard(1);
 }
 
-// Previous Card
 function previousCard() {
-  if (currentCardIndex > 0) {
-    // Slide out animation
-    card.classList.add("slide-right");
-    setTimeout(() => {
-      currentCardIndex--;
-      card.classList.remove("slide-right");
-      card.classList.add("slide-in-right");
-      loadCard();
-      setTimeout(() => {
-        card.classList.remove("slide-in-right");
-      }, 500);
-    }, 500);
-  }
+  navigateCard(-1);
 }
 
-// Update Button States
+function navigateCard(direction) {
+  if (!gameStarted || isAnimating) {
+    return;
+  }
+
+  const targetIndex = currentCardIndex + direction;
+
+  if (targetIndex < 0) {
+    return;
+  }
+
+  if (targetIndex >= animals.length) {
+    completeGame();
+    return;
+  }
+
+  hideSwipeHint();
+  animateCardTransition(direction, targetIndex);
+}
+
+function animateCardTransition(direction, targetIndex) {
+  const exitClass = direction > 0 ? "slide-left" : "slide-right";
+  const enterClass = direction > 0 ? "slide-in-left" : "slide-in-right";
+
+  isAnimating = true;
+  card.classList.add(exitClass);
+
+  window.setTimeout(() => {
+    currentCardIndex = targetIndex;
+    card.classList.remove(exitClass);
+    card.classList.add(enterClass);
+    renderCurrentCard();
+
+    window.setTimeout(() => {
+      card.classList.remove(enterClass);
+      isAnimating = false;
+    }, CARD_ANIMATION_MS);
+  }, CARD_ANIMATION_MS);
+}
+
 function updateButtonStates() {
   prevBtn.disabled = currentCardIndex === 0;
-  nextBtn.disabled = currentCardIndex === animals.length - 1;
+  nextBtn.disabled = animals.length === 0;
   nextBtn.textContent =
-    currentCardIndex === animals.length - 1 ? "✓ Fertig" : "Weiter →";
+    currentCardIndex === animals.length - 1 ? "Fertig" : "Weiter ->";
 }
 
-// Reset Card
 function resetCard() {
-  card.classList.remove("flipped");
-  isFlipped = false;
   currentCardIndex = 0;
+  card.classList.remove("flipped", "slide-left", "slide-right", "slide-in-left", "slide-in-right");
+  currentCardSpan.textContent = "1";
 }
 
-// Complete Game
 function completeGame() {
+  gameStarted = false;
+  isAnimating = false;
   completeOverlay.classList.add("show");
 }
 
-// Touch Events for Swipe
-function handleTouchStart(e) {
-  touchStartX = e.changedTouches[0].screenX;
+function handleTouchStart(event) {
+  touchStartX = event.changedTouches[0].screenX;
 }
 
-function handleTouchEnd(e) {
-  touchEndX = e.changedTouches[0].screenX;
+function handleTouchEnd(event) {
+  if (!gameStarted) {
+    return;
+  }
+
+  touchEndX = event.changedTouches[0].screenX;
   handleSwipe();
 }
 
 function handleSwipe() {
-  const swipeThreshold = 50;
-  const diff = touchStartX - touchEndX;
+  const distance = touchStartX - touchEndX;
 
-  if (Math.abs(diff) > swipeThreshold) {
-    if (diff > 0) {
-      // Swipe left - go to next card
-      nextCard();
-    } else {
-      // Swipe right - go to previous card
-      previousCard();
-    }
+  if (Math.abs(distance) <= SWIPE_THRESHOLD) {
+    return;
   }
+
+  if (distance > 0) {
+    nextCard();
+    return;
+  }
+
+  previousCard();
 }
 
-// Keyboard Events
-function handleKeyPress(e) {
-  if (!gameStarted) return;
+function handleKeyPress(event) {
+  if (!gameStarted || isAnimating) {
+    return;
+  }
 
-  if (e.key === "ArrowLeft") {
+  if (event.key === "ArrowLeft") {
     previousCard();
-  } else if (e.key === "ArrowRight") {
+    return;
+  }
+
+  if (event.key === "ArrowRight") {
     nextCard();
-  } else if (e.key === " ") {
-    e.preventDefault();
+    return;
+  }
+
+  if (event.key === " ") {
+    event.preventDefault();
     flipCard();
   }
 }
 
-// Swipe Hint Functions
 function showSwipeHint() {
   swipeHint.style.opacity = "1";
 }
@@ -221,22 +267,11 @@ function hideSwipeHint() {
   swipeHint.style.opacity = "0";
 }
 
-// Add transition to swipeHint
-swipeHint.style.transition = "opacity 0.3s ease";
-
-// Hide swipe hint when user interacts
-document.addEventListener(
-  "touchstart",
-  () => {
-    hideSwipeHint();
-  },
-  { once: true },
-);
-
-document.addEventListener(
-  "click",
-  () => {
-    hideSwipeHint();
-  },
-  { once: true },
-);
+function scheduleSwipeHint() {
+  hideSwipeHint();
+  swipeHintTimeoutId = window.setTimeout(() => {
+    if (gameStarted) {
+      showSwipeHint();
+    }
+  }, 1000);
+}
