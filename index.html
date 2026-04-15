@@ -8,12 +8,27 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="selection-screen" id="selectionScreen">
+      <div class="selection-shell">
+        <div class="selection-copy">
+          <h1>Waehle dein Spiel</h1>
+        </div>
+
+        <div class="games-grid" id="gamesGrid"></div>
+      </div>
+    </div>
+
     <div class="startup-screen" id="startupScreen">
       <div class="startup-container">
         <div class="emoji-animation">&#128062;</div>
-        <h1>Wer bin ich?</h1>
-        <p>Ich gebe dir Hinweise - kannst du erraten, welches Tier ich bin?</p>
-        <button class="start-btn" id="startBtn">Spiel starten</button>
+        <h1 id="menuTitle">Wer bin ich?</h1>
+        <p id="menuDescription">
+          Ich gebe dir Hinweise - kannst du erraten, welches Tier ich bin?
+        </p>
+        <div class="startup-actions">
+          <button class="start-btn" id="startBtn">Spiel starten</button>
+          <button class="menu-link-btn" id="selectionBtn">Spielauswahl</button>
+        </div>
       </div>
     </div>
 
