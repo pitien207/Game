@@ -4,14 +4,28 @@ const GAME_CATALOG = [
     title: "Wer bin ich?",
     icon: "images/favicon.png",
     available: true,
+    menuEmoji: "&#128062;",
     menuDescription:
       "Ich gebe dir Hinweise - kannst du erraten, welches Tier ich bin?",
+    cards: animalsOriginal,
+    variant: "riddle",
+  },
+  {
+    id: "fussballteams",
+    title: "Der Mannschaft",
+    icon: "images/favicon_mannschaft.png",
+    available: true,
+    menuEmoji: "&#9917;",
+    menuDescription:
+      "Sieh dir das Vereinslogo an und errate den Namen des Fussballteams.",
+    cards: teamsOriginal,
+    variant: "logo",
   },
 ];
 
-let animals = [];
+let currentCards = [];
 let currentCardIndex = 0;
-let currentGameId = null;
+let currentGame = GAME_CATALOG[0];
 let isFlipped = false;
 let gameStarted = false;
 let isAnimating = false;
@@ -22,10 +36,12 @@ const imagePreloadCache = new Map();
 
 const CARD_ANIMATION_MS = 320;
 const SWIPE_THRESHOLD = 50;
+const LOGO_GAME_PROMPT = "Welcher Verein ist das?";
 
 const selectionScreen = document.getElementById("selectionScreen");
 const gamesGrid = document.getElementById("gamesGrid");
 const startupScreen = document.getElementById("startupScreen");
+const menuEmoji = document.getElementById("menuEmoji");
 const menuTitle = document.getElementById("menuTitle");
 const menuDescription = document.getElementById("menuDescription");
 const startBtn = document.getElementById("startBtn");
@@ -33,6 +49,8 @@ const selectionBtn = document.getElementById("selectionBtn");
 const gameScreen = document.getElementById("gameScreen");
 const homeBtn = document.getElementById("homeBtn");
 const card = document.getElementById("card");
+const hintIcon = document.getElementById("hintIcon");
+const frontImage = document.getElementById("frontImage");
 const questionText = document.getElementById("questionText");
 const answerText = document.getElementById("answerText");
 const animalImage = document.getElementById("animalImage");
@@ -47,11 +65,14 @@ const swipeHint = document.getElementById("swipeHint");
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
-  totalCardsSpan.textContent = animalsOriginal.length;
-  swipeHint.style.transition = "opacity 0.3s ease";
+  totalCardsSpan.textContent = String(currentGame.cards.length);
+  if (swipeHint) {
+    swipeHint.style.transition = "opacity 0.3s ease";
+  }
   renderGameSelection();
   setupEventListeners();
   preloadAssets();
+  resetCard();
   hideSwipeHint();
 }
 
@@ -93,10 +114,9 @@ function createGameCardMarkup(game) {
 function preloadAssets() {
   GAME_CATALOG.forEach((game) => {
     void preloadImage(game.icon);
-  });
-
-  animalsOriginal.forEach((animal) => {
-    void preloadImage(animal.image);
+    game.cards.forEach((cardData) => {
+      void preloadImage(cardData.image);
+    });
   });
 }
 
@@ -135,14 +155,14 @@ function preloadImage(src) {
   return readyPromise;
 }
 
-function warmNearbyAnimalImages(index) {
+function warmNearbyCardImages(index) {
   const nearbyOffsets = [0, 1, -1, 2, -2];
 
   nearbyOffsets.forEach((offset) => {
-    const animal = animals[index + offset];
+    const cardData = currentCards[index + offset];
 
-    if (animal) {
-      void preloadImage(animal.image);
+    if (cardData) {
+      void preloadImage(cardData.image);
     }
   });
 }
@@ -164,10 +184,11 @@ function openGameMenu(gameId) {
     return;
   }
 
-  currentGameId = selectedGame.id;
+  currentGame = selectedGame;
+  menuEmoji.innerHTML = selectedGame.menuEmoji;
   menuTitle.textContent = selectedGame.title;
   menuDescription.textContent = selectedGame.menuDescription;
-  totalCardsSpan.textContent = String(animalsOriginal.length);
+  totalCardsSpan.textContent = String(selectedGame.cards.length);
 
   gameStarted = false;
   isAnimating = false;
@@ -184,7 +205,6 @@ function openGameMenu(gameId) {
 }
 
 function showGameSelection() {
-  currentGameId = null;
   gameStarted = false;
   isAnimating = false;
   isFlipped = false;
@@ -195,12 +215,11 @@ function showGameSelection() {
   gameScreen.classList.remove("show");
   completeOverlay.classList.remove("show");
 
-  resetCard();
   hideSwipeHint();
 }
 
 function startCurrentGame() {
-  if (currentGameId !== "wer-bin-ich") {
+  if (!currentGame || !currentGame.available) {
     return;
   }
 
@@ -208,15 +227,16 @@ function startCurrentGame() {
   isAnimating = false;
   currentCardIndex = 0;
   isFlipped = false;
-  animals = shuffleArray(animalsOriginal);
+  currentCards = shuffleArray(currentGame.cards);
 
   clearTimeout(swipeHintTimeoutId);
   startupScreen.classList.remove("show");
   gameScreen.classList.add("show");
   completeOverlay.classList.remove("show");
+  totalCardsSpan.textContent = String(currentGame.cards.length);
 
   renderCurrentCard();
-  warmNearbyAnimalImages(0);
+  warmNearbyCardImages(0);
   scheduleSwipeHint();
 }
 
@@ -239,23 +259,37 @@ function goHome() {
 }
 
 function renderCurrentCard() {
-  const animal = animals[currentCardIndex];
+  const currentCard = currentCards[currentCardIndex];
 
-  if (!animal) {
+  if (!currentCard) {
     return;
   }
 
-  questionText.textContent = animal.question;
-  answerText.textContent = animal.name;
-  animalImage.src = animal.image;
-  animalImage.alt = `Bild von ${animal.name}`;
+  const isLogoGame = currentGame.variant === "logo";
+
+  card.classList.toggle("card-logo-game", isLogoGame);
+  hintIcon.classList.toggle("is-hidden", isLogoGame);
+  frontImage.classList.toggle("is-hidden", !isLogoGame);
+  animalImage.classList.toggle("is-hidden", isLogoGame);
+
+  if (isLogoGame) {
+    frontImage.src = currentCard.image;
+    frontImage.alt = `Vereinslogo von ${currentCard.name}`;
+    questionText.textContent = LOGO_GAME_PROMPT;
+  } else {
+    questionText.textContent = currentCard.question;
+    animalImage.src = currentCard.image;
+    animalImage.alt = `Bild von ${currentCard.name}`;
+  }
+
+  answerText.textContent = currentCard.name;
 
   currentCardSpan.textContent = String(currentCardIndex + 1);
   card.classList.remove("flipped");
   isFlipped = false;
 
   updateButtonStates();
-  warmNearbyAnimalImages(currentCardIndex);
+  warmNearbyCardImages(currentCardIndex);
 }
 
 function flipCard() {
@@ -287,7 +321,7 @@ function navigateCard(direction) {
     return;
   }
 
-  if (targetIndex >= animals.length) {
+  if (targetIndex >= currentCards.length) {
     completeGame();
     return;
   }
@@ -300,7 +334,7 @@ function animateCardTransition(direction, targetIndex) {
   const exitClass = direction > 0 ? "slide-left" : "slide-right";
   const enterClass = direction > 0 ? "slide-in-left" : "slide-in-right";
 
-  warmNearbyAnimalImages(targetIndex);
+  warmNearbyCardImages(targetIndex);
   isAnimating = true;
   card.classList.add(exitClass);
 
@@ -322,25 +356,42 @@ function animateCardTransition(direction, targetIndex) {
 
 function updateButtonStates() {
   prevBtn.disabled = currentCardIndex === 0;
-  nextBtn.disabled = animals.length === 0;
+  nextBtn.disabled = currentCards.length === 0;
   nextBtn.textContent =
-    currentCardIndex === animals.length - 1 ? "Fertig" : "Weiter ->";
+    currentCardIndex === currentCards.length - 1 ? "Fertig" : "Weiter ->";
 }
 
 function resetCard() {
   currentCardIndex = 0;
   currentCardSpan.textContent = "1";
-  questionText.textContent = "Wer bin ich?";
-  answerText.textContent = "Hund";
-  animalImage.src = "images/dog.svg";
-  animalImage.alt = "Hund";
   card.classList.remove(
     "flipped",
     "slide-left",
     "slide-right",
     "slide-in-left",
     "slide-in-right",
+    "card-logo-game",
   );
+
+  if (currentGame.variant === "logo") {
+    card.classList.add("card-logo-game");
+    hintIcon.classList.add("is-hidden");
+    frontImage.classList.remove("is-hidden");
+    frontImage.src = currentGame.icon;
+    frontImage.alt = currentGame.title;
+    animalImage.classList.add("is-hidden");
+    questionText.textContent = LOGO_GAME_PROMPT;
+    answerText.textContent = currentGame.title;
+    return;
+  }
+
+  hintIcon.classList.remove("is-hidden");
+  frontImage.classList.add("is-hidden");
+  animalImage.classList.remove("is-hidden");
+  questionText.textContent = "Wer bin ich?";
+  answerText.textContent = "Hund";
+  animalImage.src = "images/dog.svg";
+  animalImage.alt = "Hund";
 }
 
 function completeGame() {
@@ -406,10 +457,18 @@ function dismissSwipeHintOnInteraction() {
 }
 
 function showSwipeHint() {
+  if (!swipeHint) {
+    return;
+  }
+
   swipeHint.style.opacity = "1";
 }
 
 function hideSwipeHint() {
+  if (!swipeHint) {
+    return;
+  }
+
   swipeHint.style.opacity = "0";
 }
 

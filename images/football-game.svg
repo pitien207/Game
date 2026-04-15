@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">Fussballteams</title>
+  <desc id="desc">Symbol fuer ein Spiel mit Fussballteams und Vereinslogos.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#1f7a8c" />
+      <stop offset="100%" stop-color="#bfdb38" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="640" rx="48" fill="url(#bg)" />
+  <path d="M400 96 574 158v128c0 124-76 216-174 258-98-42-174-134-174-258V158L400 96Z" fill="#ffffff" opacity="0.95" />
+  <circle cx="400" cy="278" r="120" fill="#111827" />
+  <circle cx="400" cy="278" r="108" fill="#f9fafb" />
+  <polygon points="400,214 448,250 430,308 370,308 352,250" fill="#111827" />
+  <path d="M322 264 288 298l20 58 66-14 10-34-18-44-44 0Z" fill="#111827" />
+  <path d="M478 264 434 264l-18 44 10 34 66 14 20-58-34-34Z" fill="#111827" />
+  <path d="M336 192 354 232l46 0 18-40c-12-6-28-10-48-10s-36 4-52 10Z" fill="#111827" />
+  <text x="400" y="476" text-anchor="middle" font-size="58" font-weight="700" fill="#12303a" font-family="Arial, sans-serif">FUSSBALL</text>
+</svg>

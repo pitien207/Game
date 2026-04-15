@@ -2,7 +2,10 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
     <title>Wer bin ich?</title>
     <link rel="icon" type="image/png" href="images/favicon.png" />
     <link rel="stylesheet" href="style.css" />
@@ -20,7 +23,7 @@
 
     <div class="startup-screen" id="startupScreen">
       <div class="startup-container">
-        <div class="emoji-animation">&#128062;</div>
+        <div class="emoji-animation" id="menuEmoji">&#128062;</div>
         <h1 id="menuTitle">Wer bin ich?</h1>
         <p id="menuDescription">
           Ich gebe dir Hinweise - kannst du erraten, welches Tier ich bin?
@@ -46,7 +49,13 @@
           <div class="card-inner">
             <div class="card-front">
               <div class="card-content">
-                <span class="hint-icon">?</span>
+                <span class="hint-icon" id="hintIcon">?</span>
+                <img
+                  class="animal-image is-hidden"
+                  id="frontImage"
+                  src="images/favicon_mannschaft.png"
+                  alt=""
+                />
                 <p id="questionText">Wer bin ich?</p>
               </div>
             </div>
@@ -70,11 +79,6 @@
         <button class="nav-btn prev-btn" id="prevBtn">&larr; Zurueck</button>
         <button class="nav-btn next-btn" id="nextBtn">Weiter &rarr;</button>
       </div>
-
-      <div class="swipe-hint" id="swipeHint">
-        Wisch links oder rechts, um zur naechsten Karte zu gehen
-      </div>
-
       <div class="complete-overlay" id="completeOverlay">
         <div class="complete-modal">
           <div class="emoji-animation-large">&#127881;</div>
@@ -86,6 +90,7 @@
     </div>
 
     <script src="animals.js"></script>
+    <script src="teams.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

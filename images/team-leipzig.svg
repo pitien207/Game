@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">RB Leipzig</title>
+  <desc id="desc">Stilisierte Vereinsmarke fuer RB Leipzig.</desc>
+  <rect width="800" height="640" rx="48" fill="#eef6ff" />
+  <path d="M400 118 560 186v138c0 108-70 196-160 244-90-48-160-136-160-244V186L400 118Z" fill="#ffffff" stroke="#1d4ed8" stroke-width="18" />
+  <path d="M238 266h324" stroke="#1d4ed8" stroke-width="18" stroke-linecap="round" />
+  <path d="M304 340 360 292l42 34-58 48h-62l22-34Z" fill="#dc2626" />
+  <path d="M496 340 440 292l-42 34 58 48h62l-22-34Z" fill="#dc2626" />
+  <circle cx="400" cy="300" r="28" fill="#facc15" />
+  <text x="400" y="228" text-anchor="middle" font-size="54" font-weight="700" fill="#1d4ed8" font-family="Arial, sans-serif">RBL</text>
+  <text x="400" y="528" text-anchor="middle" font-size="40" font-weight="700" fill="#1e3a8a" font-family="Arial, sans-serif">LEIPZIG</text>
+</svg>

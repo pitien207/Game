@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">Werder Bremen</title>
+  <desc id="desc">Stilisierte Vereinsmarke fuer Werder Bremen.</desc>
+  <rect width="800" height="640" rx="48" fill="#ecfdf5" />
+  <polygon points="400,128 566,300 400,512 234,300" fill="#047857" />
+  <polygon points="400,168 526,302 400,470 274,302" fill="#ffffff" />
+  <text x="400" y="350" text-anchor="middle" font-size="150" font-weight="700" fill="#047857" font-family="Georgia, serif">W</text>
+  <circle cx="400" cy="216" r="18" fill="#facc15" />
+  <text x="400" y="560" text-anchor="middle" font-size="40" font-weight="700" fill="#065f46" font-family="Arial, sans-serif">WERDER BREMEN</text>
+</svg>

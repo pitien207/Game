@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">Eintracht Frankfurt</title>
+  <desc id="desc">Stilisierte Vereinsmarke fuer Eintracht Frankfurt.</desc>
+  <rect width="800" height="640" rx="48" fill="#f8fafc" />
+  <circle cx="400" cy="320" r="188" fill="#111827" />
+  <circle cx="400" cy="320" r="148" fill="#ffffff" />
+  <circle cx="400" cy="320" r="110" fill="#dc2626" />
+  <path d="M360 258h80l28 38-24 12v58h-28v-42h-32v42h-28v-58l-24-12 28-38Z" fill="#ffffff" />
+  <path d="M372 238 400 210l28 28" stroke="#ffffff" stroke-width="12" fill="none" stroke-linecap="round" />
+  <text x="400" y="536" text-anchor="middle" font-size="38" font-weight="700" fill="#111827" font-family="Arial, sans-serif">EINTRACHT</text>
+</svg>

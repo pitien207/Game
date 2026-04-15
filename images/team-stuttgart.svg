@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">VfB Stuttgart</title>
+  <desc id="desc">Stilisierte Vereinsmarke fuer VfB Stuttgart.</desc>
+  <rect width="800" height="640" rx="48" fill="#fff7ed" />
+  <path d="M262 142h276l48 74-26 242-160 72-160-72-26-242 48-74Z" fill="#facc15" />
+  <path d="M282 174h236l34 50-20 204-132 60-132-60-20-204 34-50Z" fill="#ffffff" />
+  <path d="M286 322h228" stroke="#dc2626" stroke-width="24" stroke-linecap="round" />
+  <path d="M286 374h228" stroke="#dc2626" stroke-width="24" stroke-linecap="round" />
+  <text x="400" y="280" text-anchor="middle" font-size="80" font-weight="700" fill="#111827" font-family="Arial, sans-serif">VfB</text>
+  <text x="400" y="560" text-anchor="middle" font-size="40" font-weight="700" fill="#92400e" font-family="Arial, sans-serif">STUTTGART</text>
+</svg>

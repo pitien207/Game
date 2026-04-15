@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">Bayern Muenchen</title>
+  <desc id="desc">Stilisierte Vereinsmarke fuer Bayern Muenchen.</desc>
+  <rect width="800" height="640" rx="48" fill="#f8fafc" />
+  <circle cx="400" cy="320" r="190" fill="#c1121f" />
+  <circle cx="400" cy="320" r="156" fill="#ffffff" />
+  <circle cx="400" cy="320" r="132" fill="#2563eb" />
+  <g fill="#ffffff">
+    <polygon points="400,220 440,250 400,280 360,250" />
+    <polygon points="320,270 360,300 320,330 280,300" />
+    <polygon points="480,270 520,300 480,330 440,300" />
+    <polygon points="400,320 440,350 400,380 360,350" />
+  </g>
+  <text x="400" y="144" text-anchor="middle" font-size="46" font-weight="700" fill="#ffffff" font-family="Arial, sans-serif">FCB</text>
+  <text x="400" y="528" text-anchor="middle" font-size="40" font-weight="700" fill="#991b1b" font-family="Arial, sans-serif">BAYERN</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">Bayer 04 Leverkusen</title>
+  <desc id="desc">Stilisierte Vereinsmarke fuer Bayer 04 Leverkusen.</desc>
+  <rect width="800" height="640" rx="48" fill="#f8fafc" />
+  <path d="M400 120 560 200v164c0 94-64 170-160 220-96-50-160-126-160-220V200L400 120Z" fill="#111827" />
+  <path d="M400 146 534 214v142c0 76-48 138-134 184-86-46-134-108-134-184V214L400 146Z" fill="#dc2626" />
+  <rect x="304" y="234" width="192" height="148" rx="24" fill="#f8fafc" />
+  <text x="400" y="316" text-anchor="middle" font-size="72" font-weight="700" fill="#111827" font-family="Arial, sans-serif">B04</text>
+  <text x="400" y="520" text-anchor="middle" font-size="38" font-weight="700" fill="#7f1d1d" font-family="Arial, sans-serif">LEVERKUSEN</text>
+</svg>

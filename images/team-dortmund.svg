@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" role="img" aria-labelledby="title desc">
+  <title id="title">Borussia Dortmund</title>
+  <desc id="desc">Stilisierte Vereinsmarke fuer Borussia Dortmund.</desc>
+  <rect width="800" height="640" rx="48" fill="#fef3c7" />
+  <circle cx="400" cy="320" r="192" fill="#111827" />
+  <circle cx="400" cy="320" r="172" fill="#facc15" />
+  <circle cx="400" cy="320" r="138" fill="#111827" />
+  <text x="400" y="286" text-anchor="middle" font-size="118" font-weight="700" fill="#facc15" font-family="Arial, sans-serif">BVB</text>
+  <text x="400" y="372" text-anchor="middle" font-size="64" font-weight="700" fill="#facc15" font-family="Arial, sans-serif">09</text>
+  <text x="400" y="538" text-anchor="middle" font-size="40" font-weight="700" fill="#713f12" font-family="Arial, sans-serif">DORTMUND</text>
+</svg>
