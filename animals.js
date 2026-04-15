@@ -69,4 +69,39 @@ const animalsOriginal = Object.freeze([
     question:
       "Ich habe rotbraunes Fell, einen buschigen Schwanz und gelte als schlau.",
   },
+  {
+    id: "giraffe",
+    name: "Giraffe",
+    image: "images/giraffe.svg",
+    question:
+      "Ich habe einen sehr langen Hals, lebe in der Savanne und esse gern Blaetter von hohen Baeumen.",
+  },
+  {
+    id: "penguin",
+    name: "Pinguin",
+    image: "images/penguin.svg",
+    question:
+      "Ich kann nicht fliegen, watschele ueber Eis und schwimme dafuer umso besser.",
+  },
+  {
+    id: "frog",
+    name: "Frosch",
+    image: "images/frog.svg",
+    question:
+      "Ich quake laut, springe weit und fuehle mich im Wasser und an Land wohl.",
+  },
+  {
+    id: "owl",
+    name: "Eule",
+    image: "images/owl.svg",
+    question:
+      "Ich bin nachts unterwegs, habe grosse Augen und kann meinen Kopf weit drehen.",
+  },
+  {
+    id: "dolphin",
+    name: "Delfin",
+    image: "images/dolphin.svg",
+    question:
+      "Ich lebe im Meer, bin sehr klug und springe oft elegant aus dem Wasser.",
+  },
 ]);
